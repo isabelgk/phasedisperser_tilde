@@ -38,22 +38,22 @@ public:
         co.c4 = a2 / a0;
     }
 
-	void copy_coefficients_from(const AllPassFilter& filter) {
+    void copy_coefficients_from(const AllPassFilter& filter) {
         co.c0 = filter.co.c0;
         co.c1 = filter.co.c1;
         co.c2 = filter.co.c2;
-	    co.c3 = filter.co.c3;
-	    co.c4 = filter.co.c4;
+        co.c3 = filter.co.c3;
+        co.c4 = filter.co.c4;
     }
     
-	void reset() {
+    void reset() {
         xm1 = 0;
         xm2 = 0;
         ym1 = 0;
         ym2 = 0;
     }
 
-	void processBlock(const double* in, double* out, long numSamples) {
+    void processBlock(const double* in, double* out, long numSamples) {
         double x = 0;
         double y = 0;
 
