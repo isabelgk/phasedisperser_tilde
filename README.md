@@ -1,4 +1,4 @@
-# allpassphase~
+# phasedisperser_tilde
 
 A phase dispersion Max object.
 
