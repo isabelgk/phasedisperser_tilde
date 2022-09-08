@@ -124,10 +124,6 @@ public:
         double* out2 = output.samples(1);
 
         long sampleFrames = input.frame_count();
-        double temp1[sampleFrames];
-        double temp2[sampleFrames];
-        double left[sampleFrames];
-        double right[sampleFrames];
 
         auto iterations = static_cast<long>(a_intensity);
         if (iterations > cur_iterations) {
@@ -156,8 +152,8 @@ public:
         // filter the audio
         if (samplesSinceSilence < deactivateAfterSamples && cur_iterations != 0 && a_mix > 0) {
             for (int i = 0; i < cur_iterations; i++) {
-                filterL[i].processBlock(temp1, left, sampleFrames);
-                filterR[i].processBlock(temp2, right, sampleFrames);
+                filterL[i].processBlock(temp1.data(), left.data(), sampleFrames);
+                filterR[i].processBlock(temp2.data(), right.data(), sampleFrames);
 
                 for (int j = 0; j < sampleFrames; j++) {
                     temp1[j] = left[j];
@@ -181,11 +177,16 @@ public:
 
 private:
     static constexpr long maxFilters = 50;
+    static constexpr long maxBufferSize = 4096;
     static constexpr long deactivateAfterSamples = 16384;
     static constexpr double noiseFloor = 0.000007;
 
     std::array<AllPassFilter, maxFilters> filterL;
     std::array<AllPassFilter, maxFilters> filterR;
+    std::array<double, maxBufferSize> temp1;
+    std::array<double, maxBufferSize> temp2;
+    std::array<double, maxBufferSize> left;
+    std::array<double, maxBufferSize> right;
 
     int freq = 0;
     long cur_iterations = 0;
